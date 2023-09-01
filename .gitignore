@@ -1,0 +1,12 @@
+# Compiled binary files
+/src/bin/
+/src/obj/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet
+packages/
