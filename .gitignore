@@ -1,6 +1,6 @@
 # Compiled binary files
-/src/bin/
-/src/obj/
+/*/bin/
+/*/obj/
 
 # User-specific files
 *.suo

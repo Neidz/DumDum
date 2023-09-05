@@ -1,19 +1,10 @@
-﻿using System.IO.Ports;
+﻿using DumDumLibrary.Communication;
 
-class DumDum
+class ConsoleController
 {
-
-
     public static void Main()
     {
-        SerialPort serialPort = new()
-        {
-            PortName = "/dev/ttyACM0",
-            BaudRate = 115200,
-            Parity = Parity.None,
-            DataBits = 8,
-            StopBits = StopBits.One
-        };
+        ISerialPort serialPort = new MockSerialPort();
 
         string command1 = "#1P500#2P500#3P500T300D0\r\n";
         string command2 = "#1P2000#2P2000#3P2000T300D0\r\n";
