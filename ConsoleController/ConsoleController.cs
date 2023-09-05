@@ -1,10 +1,13 @@
 ﻿using DumDumLibrary.SerialCommunication;
+using DumDumLibrary.Logger;
 
 class ConsoleController
 {
-    public static void Main()
+    public static void Main(string[] args)
     {
-        ISerialCommunication serialPort = new MockedSerialCommunication();
+        bool IsMocked = args.Length > 0 && args[0] == "--mock";
+
+        ISerialCommunication serialCommunication = IsMocked ? new MockedSerialCommunication(new Logger()) : new SerialCommunication(new Logger(), new SerialPortConfig());
 
         string command1 = "#1P500#2P500#3P500T300D0\r\n";
         string command2 = "#1P2000#2P2000#3P2000T300D0\r\n";
@@ -13,13 +16,13 @@ class ConsoleController
 
         try
         {
-            serialPort.Open();
+            serialCommunication.Open();
 
             while (true)
             {
                 foreach (string message in commands)
                 {
-                    serialPort.SendCommand(message);
+                    serialCommunication.SendCommand(message);
 
                     Thread.Sleep(500);
                 }
@@ -31,7 +34,7 @@ class ConsoleController
         }
         finally
         {
-            serialPort.Close();
+            serialCommunication.Close();
         }
     }
 }
