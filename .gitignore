@@ -10,3 +10,7 @@
 
 # NuGet
 packages/
+
+# Editors
+.vscode
+.idea
