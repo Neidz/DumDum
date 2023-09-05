@@ -1,11 +1,11 @@
-namespace DumDumLibrary.Communication;
+namespace DumDumLibrary.SerialCommunication;
 using System.IO.Ports;
 
-public class SerialPortWrapper : ISerialPort
+public class SerialCommunication : ISerialCommunication
 {
     private SerialPort _serialPort;
 
-    public SerialPortWrapper(SerialPortConfig serialPortConfig)
+    public SerialCommunication(SerialPortConfig serialPortConfig)
     {
         _serialPort = new()
         {
@@ -30,18 +30,8 @@ public class SerialPortWrapper : ISerialPort
         _serialPort.Close();
     }
 
-    public void Write(string data)
-    {
-        _serialPort.Write(data);
-    }
-
-    public void WriteLine(string data)
+    public void SendCommand(string data)
     {
         _serialPort.WriteLine(data);
-    }
-
-    public string ReadLine()
-    {
-        return _serialPort.ReadLine();
     }
 }

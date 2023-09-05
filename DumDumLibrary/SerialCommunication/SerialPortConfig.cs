@@ -1,4 +1,4 @@
-namespace DumDumLibrary.Communication;
+namespace DumDumLibrary.SerialCommunication;
 using System.IO.Ports;
 
 public class SerialPortConfig
