@@ -3,7 +3,7 @@ using System.IO.Ports;
 
 public class SerialPortConfig
 {
-    public string PortName { get; set; } = "/dev/ttyACM0";
+    public string PortName { get; set; } = "/dev/ttyUSB0";
     public int BaudRate { get; set; } = 115200;
 
     public Parity Parity { get; set; } = Parity.None;

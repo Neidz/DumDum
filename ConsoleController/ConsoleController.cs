@@ -9,10 +9,12 @@ class ConsoleController
 
         ISerialCommunication serialCommunication = IsMocked ? new MockedSerialCommunication(new Logger()) : new SerialCommunication(new Logger(), new SerialPortConfig());
 
-        string command1 = "#1P500#2P500#3P500T300D0\r\n";
-        string command2 = "#1P2000#2P2000#3P2000T300D0\r\n";
+        int time = 1000;
+        int delay = 200;
 
-        string[] commands = { command1, command2 };
+        string command0 = $"#0P500T{time}D0\r\n";
+        string command1 = $"#0P0T{time}D0\r\n";
+        string command2 = $"#02P2000T{time}D0\r\n";
 
         try
         {
@@ -20,13 +22,19 @@ class ConsoleController
 
             while (true)
             {
-                foreach (string message in commands)
-                {
-                    serialCommunication.SendCommand(message);
 
-                    Thread.Sleep(500);
-                }
+                serialCommunication.SendCommand(command0);
+                Thread.Sleep(time + delay);
+                serialCommunication.SendCommand(command1);
+                Thread.Sleep(time + delay);
+                serialCommunication.SendCommand(command0);
+                Thread.Sleep(time + delay);
+                serialCommunication.SendCommand(command2);
+                Thread.Sleep(time + delay);
+                Console.WriteLine("Starting over.");
+
             }
+
         }
         catch (Exception ex)
         {
