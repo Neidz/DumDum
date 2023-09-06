@@ -12,9 +12,9 @@ class ConsoleController
         int time = 1000;
         int delay = 200;
 
-        string command0 = $"#0P500T{time}D0\r\n";
-        string command1 = $"#0P0T{time}D0\r\n";
-        string command2 = $"#02P2000T{time}D0\r\n";
+        string command0 = $"#2A0T{time}\r\n";
+        string command1 = $"#2A90T{time}\r\n";
+        string command2 = $"#2A180T{time}\r\n";
 
         try
         {
