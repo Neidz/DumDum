@@ -42,7 +42,6 @@ public class SerialCommunication : ISerialCommunication
         {
             _logger.Log(LogLevel.Fatal, "Serial communication is not open. Command not sent.");
             throw new InvalidOperationException("Serial communication is not open.");
-            return;
         }
         _serialPort.WriteLine(data);
     }
