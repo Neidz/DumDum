@@ -41,65 +41,69 @@ struct FormattedCommandContent
 };
 
 // Extracts motor angles and time from "#1A30#5A90T1000"
-FormattedCommandContent splitCommandToParts(String str)
+FormattedCommandContent splitCommandToParts(String command)
 {
   std::vector<MotorCommand> motorCommands;
+
+  char servoNumberToken = '#';
+  char angleToken = 'A';
+  char timeToken = 'T';
+  // Placeholder with initial token
+  char initialToken = '_';
+
   int time;
-  // Holds information what is being parsed ('#', 'A', 'T', _) _ is placeholder and means sign is not assigned
-  char sign = '_';
+  // Holds information what is being parsed (servo number, angle or time)
+  char currentTokenType = initialToken;
   // Holds numeric string value containing angle or time
   String number;
   // Holds motor number
   String motorNumber;
 
-  for (int i = 0; i < str.length(); i++)
+  for (int i = 0; i < command.length(); i++)
   {
-    char c = str[i];
+    char token = command[i];
 
-    // Handles first char in str
-    if (sign == '_')
+    if (currentTokenType == initialToken)
     {
-      sign = c;
+      currentTokenType = token;
       continue;
     }
 
     // This is last char, so it must be last digit of time
-    if (i == (str.length() - 1))
+    if (i == (command.length() - 1))
     {
-      number += c;
+      number += token;
       time = number.toInt();
       continue;
     }
 
-    if (isdigit(c))
+    if (isdigit(token))
     {
-      // Current char is number that is part of the motor number
-      if (sign == '#')
+      if (currentTokenType == servoNumberToken)
       {
-        motorNumber += c;
+        motorNumber += token;
         continue;
       }
-      // Current char is number that is part of the angle or time
-      number += c;
+      number += token;
       continue;
     }
 
-    // At this point c is '#' or 'A'
+    // At this point token is either servoNumberToken or angleToken
 
     // Parsing motor number is finished and now starts parsing of angle
-    if (sign == '#')
+    if (currentTokenType == servoNumberToken)
     {
-      sign = 'A';
+      currentTokenType = angleToken;
       continue;
     }
 
-    // Sign was 'A', so now number contains motor angle and motorNumber contains for which motor this angle should be set
+    // Sign has value of angleToken, so now number contains motor angle and motorNumber contains for which motor this angle should be set
     MotorCommand motorCommand;
     motorCommand.motor = motorNumber.toInt();
     motorCommand.angle = number.toInt();
     motorCommands.push_back(motorCommand);
 
-    sign = c;
+    currentTokenType = token;
     motorNumber.clear();
     number.clear();
   }
